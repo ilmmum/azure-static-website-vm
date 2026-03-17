@@ -5,14 +5,34 @@
 # This script provisions infrastructure on Azure
 # VARIABLES
 
+#!/bin/bash
+
 RESOURCE_GROUP="capstone-rg"
 LOCATION="eastus"
-VNET_NAME="capstone-vnet"
-SUBNET_NAME="web-subnet"
-NSG_NAME="web-nsg"
-PUBLIC_IP_NAME="web-public-ip"
-NIC_NAME="web-nic"
-VM_NAME="web-vm"
-VM_SIZE="Standard_B1s"
-IMAGE="Ubuntu2204"
-ADMIN_USER="azureuser"
+VM_NAME="capstone-vm"
+
+echo "Creating Resource Group..."
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
+echo "Creating VM..."
+az vm create \
+  --resource-group $RESOURCE_GROUP \
+  --name $VM_NAME \
+  --image Ubuntu2204 \
+  --admin-username azureuser \
+  --generate-ssh-keys
+
+echo "Opening port 80..."
+az vm open-port \
+  --port 80 \
+  --resource-group $RESOURCE_GROUP \
+  --name $VM_NAME
+
+echo "Fetching Public IP..."
+az vm show -d \
+  --resource-group $RESOURCE_GROUP \
+  --name $VM_NAME \
+  --query publicIps \
+  --output tsv
+
+echo "Deployment complete!"
