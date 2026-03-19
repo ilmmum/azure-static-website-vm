@@ -1,0 +1,43 @@
+name: Deploy to Azure VM
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
+      
+      - name: Test SSH connection
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} "echo 'SSH connection successful!'"
+      
+      - name: Copy website files to VM
+        run: |
+          scp -r website/* ${{ secrets.VM_USER }}@${{ secrets.VM_IP }}:/home/${{ secrets.VM_USER }}/
+      
+      - name: Deploy to NGINX
+        run: |
+          ssh ${{ secrets.VM_USER }}@${{ secrets.VM_IP }} "
+            sudo rm -f /var/www/html/index.nginx-debian.html &&
+            sudo mv /home/${{ secrets.VM_USER }}/* /var/www/html/ &&
+            sudo chown -R www-data:www-data /var/www/html/ &&
+            sudo systemctl restart nginx
+          "
+      
+      - name: Verify deployment
+        run: |
+          echo "Deployment complete!"
+          echo "Visit: http://${{ secrets.VM_IP }}"
