@@ -1,10 +1,330 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Cloud Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☁️ Cloud Engineer | Azure Static Site</title>
+    <style>
+        /* Simple reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Clean background */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Main card */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .cloud-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin-bottom: 24px;
+        }
+
+        /* Status grid */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .status-item {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .status-label {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .status-value {
+            color: #0f172a;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .status-value.success {
+            color: #059669;
+        }
+
+        .status-value.info {
+            color: #2563eb;
+        }
+
+        /* Tech stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 32px 0;
+            padding: 24px 0;
+            border-top: 2px dashed #e2e8f0;
+            border-bottom: 2px dashed #e2e8f0;
+        }
+
+        .tech-item {
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Deployment info */
+        .deployment-info {
+            background: #f0f9ff;
+            border-radius: 20px;
+            padding: 24px;
+            margin: 32px 0;
+            border-left: 4px solid #2563eb;
+        }
+
+        .deployment-title {
+            color: #0f172a;
+            font-weight: 600;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .deployment-steps {
+            list-style: none;
+        }
+
+        .deployment-steps li {
+            color: #334155;
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .deployment-steps li:last-child {
+            border-bottom: none;
+        }
+
+        .check {
+            color: #059669;
+            font-weight: bold;
+        }
+
+        /* Engineer info */
+        .engineer-info {
+            text-align: center;
+            padding: 24px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 20px;
+            margin-top: 32px;
+        }
+
+        .engineer-name {
+            color: #0f172a;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .engineer-title {
+            color: #475569;
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .social-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 40px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            transition: all 0.2s;
+        }
+
+        .social-link:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .timestamp {
+            font-family: 'Courier New', monospace;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .card {
+                padding: 24px;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>🚀 Static Website Deployed on Azure</h1>
-    <p>Built by Oluwole - Cloud & DevOps Engineer</p>
+    <div class="card">
+        <!-- Header -->
+        <div class="header">
+            <div class="cloud-icon">☁️</div>
+            <h1>Azure Static Website</h1>
+            <div class="badge">🚀 LIVE · DEPLOYED WITH AZURE CLI</div>
+        </div>
+
+        <!-- Quick Status Grid -->
+        <div class="status-grid">
+            <div class="status-item">
+                <div class="status-label">Status</div>
+                <div class="status-value success">● Operational</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Public IP</div>
+                <div class="status-value info">20.160.26.41</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Web Server</div>
+                <div class="status-value">NGINX</div>
+            </div>
+            <div class="status-item">
+                <div class="status-label">Region</div>
+                <div class="status-value">West Europe</div>
+            </div>
+        </div>
+
+        <!-- Tech Stack -->
+        <div class="tech-stack">
+            <span class="tech-item">🟦 Azure VM</span>
+            <span class="tech-item">🐧 Ubuntu 22.04</span>
+            <span class="tech-item">🔧 NGINX</span>
+            <span class="tech-item">📝 Bash</span>
+            <span class="tech-item">🤖 GitHub Actions</span>
+            <span class="tech-item">🔐 Ports 22,80,443</span>
+        </div>
+
+        <!-- Deployment Details -->
+        <div class="deployment-info">
+            <div class="deployment-title">📋 Deployment Checklist</div>
+            <ul class="deployment-steps">
+                <li><span class="check">✅</span> Resource Group: static-website-rg-final</li>
+                <li><span class="check">✅</span> Virtual Network: static-website-vnet</li>
+                <li><span class="check">✅</span> Subnet: static-website-subnet</li>
+                <li><span class="check">✅</span> NSG Rules: SSH (22), HTTP (80), HTTPS (443)</li>
+                <li><span class="check">✅</span> VM: static-website-vm-v2 (Ubuntu 22.04)</li>
+                <li><span class="check">✅</span> Web Server: NGINX installed & configured</li>
+                <li><span class="check">✅</span> CI/CD: GitHub Actions auto-deploy</li>
+            </ul>
+        </div>
+
+        <!-- Engineer Info -->
+        <div class="engineer-info">
+            <div class="engineer-name">Oluwole Olajide Ojo</div>
+            <div class="engineer-title">Cloud & DevOps Engineer</div>
+            <div class="social-links">
+                <a href="#" class="social-link">📧 Email</a>
+                <a href="#" class="social-link">💼 LinkedIn</a>
+                <a href="#" class="social-link">🐙 GitHub</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>Built with ☁️ Azure • Infrastructure as Code</div>
+            <div class="timestamp">🕒 Last deployed: March 19, 2026 • 100% automated</div>
+        </div>
+    </div>
 </body>
 </html>
